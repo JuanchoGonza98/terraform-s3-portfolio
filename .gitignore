@@ -1,0 +1,23 @@
+# Providers y módulos descargados
+**/.terraform/*
+
+# State local y sus copias
+*.tfstate
+*.tfstate.*
+
+# Planes guardados
+*.tfplan
+
+# Logs de errores
+crash.log
+crash.*.log
+
+# Configuración personal de Terraform CLI
+.terraformrc
+terraform.rc
+
+# Variables locales y secretos
+.env
+.env.*
+*.local.tfvars
+*.local.tfvars.json
