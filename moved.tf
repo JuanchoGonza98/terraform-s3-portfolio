@@ -27,3 +27,7 @@ moved {
   from = aws_s3_bucket_server_side_encryption_configuration.site
   to   = module.s3_site.aws_s3_bucket_server_side_encryption_configuration.site
 }
+moved {
+  from = aws_s3_object.index
+  to   = aws_s3_object.website["index.html"]
+}

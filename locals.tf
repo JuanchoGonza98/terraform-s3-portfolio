@@ -7,4 +7,9 @@ locals {
     ManagedBy   = "Terraform"
     Service     = "portfolio-web"
   }
+
+  website_files = {
+    "index.html"   = "text/html; charset=utf-8"
+    "project.json" = "application/json"
+  }
 }

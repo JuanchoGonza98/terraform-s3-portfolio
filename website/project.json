@@ -1,0 +1,6 @@
+{
+  "name": "Terraform S3 Portfolio Lab",
+  "environment": "dev",
+  "managed_by": "Terraform",
+  "purpose": "Practice infrastructure as code on AWS"
+}
