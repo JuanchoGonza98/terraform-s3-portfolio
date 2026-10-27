@@ -3,8 +3,9 @@ data "aws_caller_identity" "current" {}
 module "s3_site" {
   source = "./modules/s3-site"
 
-  bucket_name = "${local.name_prefix}-${data.aws_caller_identity.current.account_id}"
-  tags        = local.common_tags
+  bucket_name                       = "${local.name_prefix}-${data.aws_caller_identity.current.account_id}"
+  tags                              = local.common_tags
+  noncurrent_version_retention_days = var.environment == "dev" ? 7 : 14
 }
 
 resource "aws_s3_object" "website" {
