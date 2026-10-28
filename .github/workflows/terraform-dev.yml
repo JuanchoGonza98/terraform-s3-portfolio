@@ -2,6 +2,12 @@ name: Terraform DEV
 
 on:
   workflow_dispatch:
+    inputs:
+      apply:
+        description: "Apply the DEV Terraform plan"
+        required: true
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -82,4 +88,8 @@ jobs:
         run: terraform validate -no-color
 
       - name: Plan DEV infrastructure
-        run: terraform plan -input=false -no-color -lock-timeout=60s -var-file=environments/dev.tfvars
+        run: terraform plan -input=false -no-color -lock-timeout=60s -var-file=environments/dev.tfvars -out=dev.tfplan
+
+      - name: Apply DEV infrastructure
+        if: ${{ inputs.apply }}
+        run: terraform apply -input=false -no-color -lock-timeout=60s dev.tfplan
