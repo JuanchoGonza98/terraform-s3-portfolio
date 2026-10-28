@@ -1,0 +1,58 @@
+name: Terraform DEV
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: terraform-dev
+  cancel-in-progress: false
+
+env:
+  TF_IN_AUTOMATION: "true"
+  TF_INPUT: "false"
+
+jobs:
+  plan:
+    name: Validate and plan DEV
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: "1.15.8"
+          terraform_wrapper: false
+
+      - name: Check Terraform formatting
+        run: terraform fmt -check -recursive
+
+      - name: Configure AWS credentials through OIDC
+        uses: aws-actions/configure-aws-credentials@v6.3.0
+        with:
+          role-to-assume: arn:aws:iam::783960388359:role/terraform-s3-lab-github-dev
+          aws-region: us-east-1
+          allowed-account-ids: "783960388359"
+          role-session-name: github-terraform-dev
+
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+
+      - name: Initialize Terraform
+        run: terraform init -input=false -lockfile=readonly -backend-config=backends/dev.hcl
+
+      - name: Validate Terraform configuration
+        run: terraform validate -no-color
+
+      - name: Plan DEV infrastructure
+        run: terraform plan -input=false -no-color -lock-timeout=60s -var-file=environments/dev.tfvars
