@@ -26,7 +26,7 @@ resource "aws_iam_role" "github_dev" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            "token.actions.githubusercontent.com:sub" = "repo:JuanchoGonza98/terraform-s3-portfolio:ref:refs/heads/main"
+            "token.actions.githubusercontent.com:sub" = "repo:JuanchoGonza98@72740630/terraform-s3-portfolio@1436450217:ref:refs/heads/main"
           }
         }
       }
