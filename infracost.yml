@@ -1,0 +1,8 @@
+version: 0.1
+
+projects:
+  - path: .
+    name: portfolio-dev
+    terraform_var_files:
+      - environments/dev.tfvars
+    usage_file: infracost-usage.yml

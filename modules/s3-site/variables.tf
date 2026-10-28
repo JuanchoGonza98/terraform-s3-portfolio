@@ -19,3 +19,8 @@ variable "noncurrent_version_retention_days" {
     error_message = "Retention must be a positive whole number of days."
   }
 }
+variable "cloudfront_distribution_arn" {
+  description = "CloudFront distribution ARN authorized to read S3 objects."
+  type        = string
+  default     = null
+}

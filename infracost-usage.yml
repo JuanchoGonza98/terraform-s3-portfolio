@@ -1,0 +1,14 @@
+version: 0.1
+
+resource_usage:
+  module.s3_site.aws_s3_bucket.site:
+    standard:
+      storage_gb: 0.1
+      monthly_tier_1_requests: 100
+      monthly_tier_2_requests: 1000
+
+  aws_cloudfront_distribution.site:
+    monthly_https_requests:
+      us: 10000
+    monthly_data_transfer_to_internet_gb:
+      us: 1

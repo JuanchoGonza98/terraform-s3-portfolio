@@ -38,3 +38,20 @@ Review this decision before production use.
 
 The controls above are defined in code.
 Deployment and verification in AWS are pending.
+### AWS-0011: CloudFront Without AWS WAF
+
+AWS WAF is not enabled for the initial static portfolio lab.
+The distribution exposes public assets and allows GET and HEAD only.
+
+Application-layer request filtering is not provided.
+Review this decision before adding authentication, APIs, forms,
+or workloads requiring stronger protection against abusive traffic.
+
+### AWS-0010: CloudFront Access Logging
+
+CloudFront access logging is not enabled in the initial lab.
+Reduced request auditability is accepted to limit scope and
+additional log storage.
+
+Review this decision before production use or when troubleshooting
+requires request-level access records.

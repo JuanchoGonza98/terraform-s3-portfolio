@@ -18,25 +18,46 @@ resource "aws_s3_bucket_policy" "require_https" {
   policy = jsonencode({
     Version = "2012-10-17"
 
-    Statement = [
-      {
-        Sid       = "DenyInsecureTransport"
-        Effect    = "Deny"
-        Principal = "*"
-        Action    = "s3:*"
+    Statement = concat(
+      [
+        {
+          Sid       = "DenyInsecureTransport"
+          Effect    = "Deny"
+          Principal = "*"
+          Action    = "s3:*"
 
-        Resource = [
-          aws_s3_bucket.site.arn,
-          "${aws_s3_bucket.site.arn}/*"
-        ]
+          Resource = [
+            aws_s3_bucket.site.arn,
+            "${aws_s3_bucket.site.arn}/*"
+          ]
 
-        Condition = {
-          Bool = {
-            "aws:SecureTransport" = "false"
+          Condition = {
+            Bool = {
+              "aws:SecureTransport" = "false"
+            }
           }
         }
-      }
-    ]
+      ],
+      var.cloudfront_distribution_arn == null ? [] : [
+        {
+          Sid    = "AllowCloudFrontReadOnly"
+          Effect = "Allow"
+
+          Principal = {
+            Service = "cloudfront.amazonaws.com"
+          }
+
+          Action   = "s3:GetObject"
+          Resource = "${aws_s3_bucket.site.arn}/*"
+
+          Condition = {
+            StringEquals = {
+              "AWS:SourceArn" = var.cloudfront_distribution_arn
+            }
+          }
+        }
+      ]
+    )
   })
 }
 
