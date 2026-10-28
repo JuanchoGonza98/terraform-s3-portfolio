@@ -1,1 +1,5 @@
-path = "states/hml.tfstate"
+bucket       = "terraform-s3-lab-state-783960388359"
+key          = "portfolio/hml/terraform.tfstate"
+region       = "us-east-1"
+encrypt      = true
+use_lockfile = true
