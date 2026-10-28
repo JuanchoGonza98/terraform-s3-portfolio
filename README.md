@@ -8,6 +8,16 @@ The DEV website is served through Amazon CloudFront with a private Amazon S3 ori
 
 > This is a learning portfolio, not a production reference architecture. The public deployment may be removed to control costs. No availability commitment is implied.
 
+## Project Preview
+
+### Website
+
+![Portfolio website](docs/images/portfolio.png)
+
+### Delivery Workflow
+
+![Successful manual DEV workflow](docs/images/github-actions.png)
+
 ## Architecture
 
 ```mermaid
