@@ -14,9 +14,15 @@ resource "aws_s3_object" "website" {
   bucket = module.s3_site.bucket_name
   key    = each.key
 
-  source      = "${path.module}/website/${each.key}"
-  source_hash = filemd5("${path.module}/website/${each.key}")
+  source      = each.key == "project.json" ? null : "${path.module}/website/${each.key}"
+  source_hash = each.key == "project.json" ? null : filemd5("${path.module}/website/${each.key}")
 
   content_type = each.value
-  tags         = local.common_tags
+  content = each.key == "project.json" ? templatefile(
+    "${path.module}/website/project.json.tftpl",
+    {
+      environment = var.environment
+    }
+  ) : null
+  tags = local.common_tags
 }
